@@ -40,7 +40,7 @@ Make sure you have the following installed on your machine:
    cd backend
    ```
 
-2. **Create a `.env` file in the root directory and add the following environment variables:**
+2. **Create a `.env` file in the backend directory and add the following environment variables:**
    ```env
    PORT=3000
    DATABASE=mongodb://localhost:27017/your-database-name
