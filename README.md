@@ -211,7 +211,7 @@ Errors are returned in the following format:
   "errors": ["This is an error","Another error"]
 }
 ```
-The appropriate HTTP status codes are used to indicate the type of error (e.g., 400 for bad requests, 401 for unauthorized access, 404 for not found, etc.).
+The appropriate HTTP status codes are used to indicate the type of error (e.g., 400 for bad requests, 401 for unauthorized access, 403 for forbidden methods, 404 for not found, etc.).
 
 
 ### Notes:
