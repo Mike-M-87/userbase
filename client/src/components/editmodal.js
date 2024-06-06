@@ -1,18 +1,9 @@
-import React, { useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link } from "@nextui-org/react";
-import { LockIcon, MailIcon, PhoneIcon } from "./icons.js";
-
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
 
 export default function EditModal({ userItem, onclose }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  useEffect(() => {
-    if (userItem) onOpen()
-  }, [userItem])
-
   return (
     <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      isOpen={userItem ? true : false}
       placement="top-center"
       className="dark text-foreground"
       onClose={onclose}

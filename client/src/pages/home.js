@@ -134,7 +134,6 @@ export default function HomePage() {
             cursor: "bg-foreground text-background",
           }}
           color="default"
-          isDisabled={filterValue ? true : false}
           page={page}
           total={pages}
           variant="light"
@@ -148,6 +147,7 @@ export default function HomePage() {
     <section className="min-h-svh">
       <NavBar />
       <Table
+        selectionMode
         className="px-20 mt-20 w-full"
         // removeWrapper
         onRowAction={handleEditUser}

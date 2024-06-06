@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownMenu, Avatar, DropdownTrigger, Dropdown, DropdownItem } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownMenu, Avatar, DropdownTrigger, Dropdown, DropdownItem, Chip } from "@nextui-org/react";
 import { getToken, getUser } from "../lib/utils";
 
 
@@ -20,7 +20,7 @@ export default function NavBar() {
 
       <NavbarContent className="">
         {user && token ?
-          <Dropdown placement="bottom-end" className="dark text-foreground">
+          <Dropdown size="lg" placement="bottom-end" className="dark text-foreground">
             <DropdownTrigger>
               <Avatar
                 isBordered
@@ -33,9 +33,10 @@ export default function NavBar() {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem key="profile">
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user.email}</p>
+                <Chip color={user.isAdmin ? "secondary" : "default"}>{user.isAdmin ? "Admin" : "User"}</Chip>
               </DropdownItem>
               <DropdownItem key="settings">My Profile</DropdownItem>
               <DropdownItem onPress={handleLogout} key="logout" color="danger">
