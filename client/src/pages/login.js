@@ -58,7 +58,13 @@ export default function LoginPage() {
         <p className="opacity-50">Phone: 0712345678</p>
         <p className="opacity-50">Password: test123</p>
       </form>
-      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center"><Image src="/wall2.jpg" /></div>
+      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center">
+        <Image
+          isBlurred
+          isZoomed
+          src="/wall2.jpg"
+        />
+      </div>
     </section >
   )
 }
