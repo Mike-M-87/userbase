@@ -49,11 +49,18 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { emailOrPhone, password } = req.body;
+    if (!emailOrPhone || !password) {
       throw new AppError("Please provide an email and password", 400)
     }
-    const user = await Usermodel.findOne({ email }).select('+password');
+    let user;
+    // Check if emailOrPhone contains '@' to determine if it's an email
+    if (emailOrPhone.includes('@')) {
+      user = await Usermodel.findOne({ email: emailOrPhone }).select('+password');
+    } else {
+      // Assuming phone number is stored in the database as phoneNumber
+      user = await Usermodel.findOne({ phoneNumber: emailOrPhone }).select('+password');
+    }
     if (!user || !(await user.correctPassword(password, user.password))) {
       throw new AppError("Invalid email or password", 401)
     }

@@ -4,7 +4,7 @@ exports.errorHandler = async (err, req, res, next) => {
 
   if (err.name === 'ValidationError') {
     statusCode = 403
-    errors.push(Object.values(err.errors).map(el => el.message))
+    errors.push(...Object.values(err.errors).map(el => el.message));
   }
   if (err.code && err.code === 11000) { // Duplicate key error
     const field = Object.keys(err.keyValue)[0];
@@ -12,10 +12,10 @@ exports.errorHandler = async (err, req, res, next) => {
     errors.push([`${field.charAt(0).toUpperCase() + field.slice(1)} already exists`])
   }
   if (err && errors.length == 0) {
-    errors = [err.message]
+    errors.push(err.message)
   }
   res.status(statusCode).json({
     success: false,
-    errors: errors
+    errors: errors,
   });
 };
