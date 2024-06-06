@@ -1,6 +1,7 @@
 # Userbase - User Management API
 
 ### Table of Contents
+- #### [Backend](#backend)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
@@ -9,8 +10,12 @@
 - [Running the Backend](#running-the-backend)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
+- [Testing](#testing)
 - [Notes](#notes)
+- ##### [Frontend](#frontend)
 
+
+# Backend
 ## Introduction
 This is a user management API built with Node.js, Express, and MongoDB. It includes functionalities such as user registration, authentication, and CRUD operations on user data.
 
@@ -213,7 +218,37 @@ Errors are returned in the following format:
 ```
 The appropriate HTTP status codes are used to indicate the type of error (e.g., 400 for bad requests, 401 for unauthorized access, 403 for forbidden methods, 404 for not found, etc.).
 
+## Testing
+To run test. Open the app.test.js file and edit default admin login credentials according to what you have on your database then run
+```sh
+npm test
+```
 
 ### Notes:
 - Replace placeholder values (like `your-username`, `your-database-name`, `your_jwt_secret`) with your actual values.
 - Add any additional steps or instructions specific to your application setup if necessary.
+
+
+
+# Frontend
+
+- Open the client directory
+  ```sh
+  cd client
+  ```
+
+- Install Dependencies
+  ```sh
+  npm install
+  ```
+
+- Start server
+  ```sh
+  npm start
+  ```
+  
+This will Runs the app in the development mode.\
+- Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.

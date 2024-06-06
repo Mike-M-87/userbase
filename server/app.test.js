@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('./index'); // Adjust the path to your Express app
 
+const defaultAdmin = { emailOrPhone: 'real@gmail.com', password: 'test123' }
 afterAll(async () => {
   console.log("Test done");
 });
@@ -10,7 +11,7 @@ describe('POST /users', () => {
     // Create some test users
     const authres = await request(app)
       .post('/auth/login')
-      .send({ emailOrPhone: 'real@gmail.com', password: 'test123' });
+      .send(defaultAdmin);
 
     expect(authres.statusCode).toEqual(200);
 
@@ -33,7 +34,7 @@ describe('POST /users', () => {
   it('should search users by name', async () => {
     const authres = await request(app)
       .post('/auth/login')
-      .send({ emailOrPhone: 'real@gmail.com', password: 'test123' });
+      .send(defaultAdmin);
 
     expect(authres.statusCode).toEqual(200);
 
