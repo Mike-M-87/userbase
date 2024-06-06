@@ -12,6 +12,7 @@ import {
   Pagination,
   Chip,
   Tooltip,
+  Spinner,
 } from "@nextui-org/react";
 import { PlusIcon, SearchIcon, EditIcon, DeleteIcon, RefreshIcon } from "../components/icons";
 import { DeleteUser, GetUsers } from "../lib/requests";
@@ -202,12 +203,15 @@ export default function HomePage() {
             <TableColumn key={column} className="capitalize">{column}</TableColumn>
           )}
         </TableHeader>
-        <TableBody isLoading={loading} emptyContent={"No users found"} items={users}>
-          {(item) =>
-            <TableRow className="cursor-pointer" key={item._id}>
-              {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-            </TableRow>
-          }
+        <TableBody isLoading={loading}
+          loadingContent={<Spinner />}
+          emptyContent={"No users found"} items={users}>
+          {!loading &&
+            ((item) =>
+              <TableRow className="cursor-pointer" key={item._id}>
+                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+              </TableRow>
+            )}
         </TableBody>
       </Table>
 
