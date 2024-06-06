@@ -53,15 +53,13 @@ process.on('uncaughtException', err => {
 process.on('unhandledRejection', err => {
   console.log(err.name, err.message);
   console.log('UNHANDLED REJECTION!💥 Shutting down...');
-  server.close(() => {
-    process.exit(1)
+  process.exit(1)
 
-  });
 });
 
 process.on('SIGTERM', () => {
   console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
-  server.close(() => {
-    console.log('💥 Process terminated')
-  })
+  process.exit(1)
 })
+
+module.exports = app;
