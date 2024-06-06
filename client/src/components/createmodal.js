@@ -24,6 +24,7 @@ export default function CreateModal({ active, onclose, oncreate }) {
 
   return (
     <Modal
+scrollBehavior="outside"
       isOpen={active}
       className="dark text-foreground"
       onClose={onclose}

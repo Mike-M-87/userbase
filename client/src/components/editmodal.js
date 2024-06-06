@@ -29,6 +29,7 @@ export default function EditModal({ userItem, onclose, onupdate }) {
 
   return (
     <Modal
+      scrollBehavior="outside"
       isOpen={userItem ? true : false}
       className="dark text-foreground"
       onClose={onclose}

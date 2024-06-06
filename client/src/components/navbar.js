@@ -1,5 +1,6 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownMenu, Avatar, DropdownTrigger, Dropdown, DropdownItem, Chip } from "@nextui-org/react";
 import { getToken, getUser } from "../lib/utils";
+import { GithubIcon } from "./icons";
 
 
 export default function NavBar() {
@@ -14,7 +15,7 @@ export default function NavBar() {
   return (
     <Navbar className="justify-center">
       <NavbarBrand>
-        <p className="font-bold text-inherit">Userbase</p>
+        <span className="font-bold text-inherit">Userbase</span>
       </NavbarBrand>
 
       <NavbarContent className="ml-auto" justify="end">
@@ -44,6 +45,9 @@ export default function NavBar() {
             <Button as={Link} variant="faded" href="/">Login</Button>
           </NavbarItem>
         }
+        <NavbarItem className="">
+          <Button isIconOnly as={Link} isExternal variant="ghost" href="https://github.com/Mike-M-87/userbase"><GithubIcon /></Button>
+        </NavbarItem>
       </NavbarContent>
     </Navbar>
   );
