@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="flex min-h-svh lg:items-center gap-10 justify-between">
+    <section className="flex min-h-screen lg:items-center gap-10 justify-between">
       <form onSubmit={handleLogin} className="lg:w-1/2 w-full mx-auto px-10">
         <h1 className="text-xl font-black mt-5 mb-10">Userbase</h1>
         <h2 className="flex flex-col mb-10 text-3xl gap-1">Log in</h2>
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <p className="opacity-50">Phone: 0712345678</p>
         <p className="opacity-50">Password: test123</p>
       </form>
-      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center">
+      <div className="w-1/2 h-screen hidden items-center lg:flex flex-col justify-center">
         <Image
           isBlurred
           isZoomed

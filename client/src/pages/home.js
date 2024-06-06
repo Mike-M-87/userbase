@@ -128,7 +128,7 @@ export default function HomePage() {
 
 
   return (
-    <section className="min-h-svh pb-20">
+    <section className="min-h-screen pb-20">
       <NavBar />
       <Table
         selectionMode
