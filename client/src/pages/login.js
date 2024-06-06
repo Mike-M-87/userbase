@@ -54,7 +54,7 @@ export default function LoginPage() {
           {loading ? "Logging in" : "Sign in"}
         </Button>
       </form>
-      <div className="w-1/2 bg-white h-svh hidden items-center lg:flex flex-col justify-center"><Image src="/logo512.png" /></div>
+      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center"><Image src="/wall2.jpg"/></div>
     </section >
   )
 }

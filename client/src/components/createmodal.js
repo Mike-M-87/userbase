@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Switch } from "@nextui-org/react";
-import { EyeIcon } from "./icons";
+import { EyeIcon, EyeSlashIcon } from "./icons";
 import { RegisterUser } from "../lib/requests";
 import toast from "react-hot-toast"
 
 
 export default function CreateModal({ active, onclose, oncreate }) {
   const [creds, setcreds] = useState({ name: "", email: "", password: "", phoneNumber: "", isAdmin: false, company: "", passwordConfirm: "" })
+  const [showPwd, setshowPwd] = useState(false)
 
   // handle user registration
   async function handleRegister() {
@@ -63,21 +64,25 @@ export default function CreateModal({ active, onclose, oncreate }) {
               />
               <Input
                 endContent={
-                  <EyeIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <Button onPress={() => setshowPwd(!showPwd)} className="my-auto" isIconOnly variant="light">
+                    {showPwd ? <EyeSlashIcon /> : <EyeIcon className="text-xl text-default-400" />}
+                  </Button>
                 }
                 label="Password"
                 placeholder="Enter user password"
-                type="password"
+                type={showPwd ? "text" : "password"}
                 onValueChange={(e) => setcreds({ ...creds, password: e, })}
                 variant="bordered"
               />
               <Input
                 endContent={
-                  <EyeIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <Button onPress={() => setshowPwd(!showPwd)} className="my-auto" isIconOnly variant="light">
+                    {showPwd ? <EyeSlashIcon /> : <EyeIcon className="text-xl text-default-400" />}
+                  </Button>
                 }
                 label="Confirm Password"
                 placeholder="Enter user password again"
-                type="password"
+                type={showPwd ? "text" : "password"}
                 onValueChange={(e) => setcreds({ ...creds, passwordConfirm: e, })}
                 variant="bordered"
               />

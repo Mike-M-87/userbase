@@ -13,6 +13,7 @@
 - [Testing](#testing)
 - [Notes](#notes)
 - ##### [Frontend](#frontend)
+- [Screenshot Demo](#home-page-demo)
 
 
 # Backend
@@ -246,9 +247,16 @@ npm test
   ```sh
   npm start
   ```
-  
-This will Runs the app in the development mode.\
+
+This will Runs the app in the development mode.
 - Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+- Login with the initially manually created admin
+
+- Find Functions such as Create User, Delete and Update user on the home page
+
+#### Home Page Demo
+![App Screenshot](./eg.png)

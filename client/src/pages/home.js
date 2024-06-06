@@ -191,7 +191,7 @@ export default function HomePage() {
               <Button className="bg-foreground text-background" isIconOnly onPress={FetchUsers}><RefreshIcon fill="black" /> </Button>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-default-400 text-small">Total {pages * 5} users</span>
+              <span className="text-default-400 text-small">Total {users.length} users</span>
             </div>
           </div>
         }

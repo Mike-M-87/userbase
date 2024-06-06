@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <NextUIProvider>
     <Toaster
-      toastOptions={{ duration: 5000, style: { backgroundColor: "rgb(36,36,36)", color: "white", borderRadius: 16, textTransform: "capitalize" } }}
+      toastOptions={{ style: { backgroundColor: "rgb(36,36,36)", color: "white", borderRadius: 16, textTransform: "capitalize" } }}
       position="top-center"
       reverseOrder={false}
     />
