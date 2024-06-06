@@ -16,9 +16,18 @@ interface makeRequestParams {
 interface ResponseType {
   success: boolean;
   token: string;
-  data: User | User[] | any;
-  errors: string[] | undefined
+  data?: User | User[];
+  errors?: string[]
+  meta?: Meta
 }
+
+interface Meta {
+  page: number
+  limit: number
+  totalPages: number
+  total: number
+}
+
 
 interface User {
   _id: string;
@@ -43,7 +52,7 @@ export async function makeRequest({ url, body, method }: makeRequestParams) {
     });
     const jsondata: ResponseType = await response.json();
 
-    if (!response.ok || !jsondata.success || !jsondata.data || jsondata?.errors) {
+    if (!response.ok || !jsondata.success || jsondata?.errors) {
       (jsondata?.errors || []).forEach(err => {
         toast.error(err);
       });

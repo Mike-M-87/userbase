@@ -73,12 +73,28 @@ exports.login = async (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await Usermodel.find()
+    const searchQuery = req.query.search || '';
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5
+    const skip = (page - 1) * limit;
+    const searchFilter = { name: { $regex: searchQuery, $options: 'i' } };
+    const total = await Usermodel.countDocuments(searchFilter);
+    const totalPages = Math.ceil(total / limit);
+    const users = await Usermodel.find(searchFilter).skip(skip).limit(limit);
+
+
+
     res.status(200).json({
       success: true,
       data: {
-        users
-      }
+        users,
+      },
+      meta: {
+        page,
+        limit,
+        totalPages,
+        total,
+      },
     })
   } catch (error) {
     next(err)
@@ -95,7 +111,7 @@ exports.deleteUser = async (req, res, next) => {
       throw new AppError("You cannot delete this admin", 403)
     }
     await user.deleteOne()
-    res.status(204).json({
+    res.status(200).json({
       success: true,
       data: null
     });
@@ -160,7 +176,7 @@ exports.protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const currentUser = await Usermodel.findById(decoded.id);
     if (!currentUser) {
-      throw new AppError('User not registered', 401);
+      throw new AppError('Please relogin to continue', 401);
     }
     if (currentUser.changedPasswordAfter(decoded.iat)) {
       throw new AppError('User recently changed pasword! Please log in', 403)

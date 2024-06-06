@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 export default function CreateModal({ active, onclose, oncreate }) {
   const [creds, setcreds] = useState({ name: "", email: "", password: "", phoneNumber: "", isAdmin: false, company: "", passwordConfirm: "" })
 
+  // handle user registration
   async function handleRegister() {
     if (!creds.email || !creds.name || !creds.phoneNumber || !creds.password || !creds.passwordConfirm || !creds.company) return
     const res = await RegisterUser(creds)

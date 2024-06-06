@@ -8,85 +8,85 @@ import {
   TableCell,
   Input,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   User,
   Pagination,
   Chip,
   Tooltip,
 } from "@nextui-org/react";
-import { PlusIcon, VerticalDotsIcon, SearchIcon, ChevronDownIcon, EyeIcon, EditIcon, DeleteIcon } from "../components/icons";
-
-import { capitalize, GetUsers } from "../lib/requests";
+import { PlusIcon, SearchIcon, EditIcon, DeleteIcon, RefreshIcon } from "../components/icons";
+import { DeleteUser, GetUsers } from "../lib/requests";
 import NavBar from "../components/navbar";
 import EditModal from "../components/editmodal";
 import CreateModal from "../components/createmodal";
+import toast from "react-hot-toast";
 
 
-const tempusers = [
-  {
-    id: 1,
-    name: "Tony Reichert",
-    isAdmin: false,
-    phoneNumber: "9999-999-99",
-    company: "my company",
-    email: "tony.reichert@example.com",
-  },
-  {
-    id: 2,
-    name: "Kelvin",
-    isAdmin: true,
-    phoneNumber: "555-999-99",
-    company: "kill company",
-    email: "kill.kkk@example.com",
-  },
-];
-const pages = 5
 const VISIBLE_COLUMNS = ["name", "email", "company", "role", "actions"];
 
 export default function HomePage() {
+  // init of state vars
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState(1);
-  const [users, setusers] = useState([])
+  const [users, setusers] = useState([]) // users variable to store fetched users
   const [selectedUser, setselectedUser] = useState()
-  const [filteredUsers, setfilteredUsers] = useState([])
   const [registering, setregistering] = useState(false)
+  const [pages, setpages] = useState(1)
+  const [loading, setloading] = useState(false)
 
-  async function FetchUsers() {
-    const res = await GetUsers()
+
+  // isSearch is used to set page back to 1 when beginning search
+  async function FetchUsers(isSearch) {
+    setloading(true)
+    const res = await GetUsers(isSearch ? 1 : page, filterValue)
     if (res?.success) {
       setusers(res.data?.users)
-      setfilteredUsers(res.data?.users)
+      setpages(res?.meta.totalPages)
     }
+    setloading(false)
   }
 
+  // hook for page change
   useEffect(() => {
     FetchUsers()
-  }, [])
+  }, [page])
 
-  const handleSearch = () => {
-    if (filterValue) setfilteredUsers(users.filter(user => user.name.toLowerCase() == filterValue.toLowerCase()))
-    else setfilteredUsers(users)
-  }
 
+  // hook to fetch original users data after search is cleared
+  useEffect(() => {
+    if (!filterValue) FetchUsers()
+  }, [filterValue])
+
+
+  // sets selected user which opens edit user modal
   const handleEditUser = (key) => {
     setselectedUser(users.find(usr => usr._id === key))
   }
 
-  const handleDeleteUser = () => {
-    console.log();
+
+  function handleSearchUsers() {
+    if (filterValue) {
+      setPage(1)
+      FetchUsers(true)
+    }
+  }
+
+  async function handleDeleteUser(userId) {
+    const res = await DeleteUser(userId)
+    if (res?.success) {
+      toast.success("User has been deleted successfully")
+      FetchUsers()
+    }
   }
 
 
+  // table cell component
   const renderCell = (user, columnKey) => {
     const cellValue = columnKey === "role" ? user.isAdmin : user[columnKey];
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "full", size: "sm" }}
+            avatarProps={{ radius: "full", size: "sm", isBordered: true }}
             classNames={{
               description: "text-default-500",
             }}
@@ -125,34 +125,28 @@ export default function HomePage() {
   };
 
 
-  const bottomContent = () => {
-    return (
-      <div className="py-2 px-2 flex justify-between items-center">
-        <Pagination
-          showControls
-          classNames={{
-            cursor: "bg-foreground text-background",
-          }}
-          color="default"
-          page={page}
-          total={pages}
-          variant="light"
-          onChange={setPage}
-        />
-      </div>
-    );
-  }
 
   return (
-    <section className="min-h-svh">
+    <section className="min-h-svh pb-20">
       <NavBar />
       <Table
         selectionMode
-        className="px-20 mt-20 w-full"
-        // removeWrapper
+        className="lg:px-20 px-5 mt-20 w-full"
         onRowAction={handleEditUser}
         aria-label="Example table with custom cells, pagination and sorting"
-        bottomContent={bottomContent}
+        bottomContent={
+          <Pagination
+            showControls
+            classNames={{
+              cursor: "bg-foreground text-background",
+            }}
+            color="default"
+            page={page}
+            total={pages}
+            variant="light"
+            onChange={setPage}
+          />
+        }
         bottomContentPlacement="outside"
         checkboxesProps={{
           classNames: {
@@ -162,13 +156,9 @@ export default function HomePage() {
         classNames={{
           th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
           td: [
-            // changing the rows border radius
-            // first
             "group-data-[first=true]:first:before:rounded-none",
             "group-data-[first=true]:last:before:rounded-none",
-            // middle
             "group-data-[middle=true]:before:rounded-none",
-            // last
             "group-data-[last=true]:first:before:rounded-none",
             "group-data-[last=true]:last:before:rounded-none",
           ],
@@ -176,33 +166,32 @@ export default function HomePage() {
 
         topContent={
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-3 items-end">
+            <div className="flex gap-3 items-center">
               <Input
-                isClearable
                 classNames={{
                   base: "w-full sm:max-w-[44%]",
                   inputWrapper: "border-1",
                 }}
                 placeholder="Search by name..."
-                size=""
-                // value={filterValue}
+                size="lg"
+                value={filterValue}
                 variant="bordered"
-                onClear={() => setFilterValue("")}
                 onValueChange={setFilterValue}
                 endContent={
-                  <Button isIconOnly size="sm" variant="shadow" onPress={handleSearch}><SearchIcon /></Button>
+                  <Button isIconOnly size="sm" variant="flat" onPress={handleSearchUsers}><SearchIcon /></Button>
                 }
               />
               <Button
-                className="bg-foreground text-background"
+                className="bg-foreground ml-auto text-background"
                 endContent={<PlusIcon />}
                 onPress={() => setregistering(true)}
               >
                 Create User
               </Button>
+              <Button className="bg-foreground text-background" isIconOnly onPress={FetchUsers}><RefreshIcon fill="black" /> </Button>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-default-400 text-small">Total {users.length} users</span>
+              <span className="text-default-400 text-small">Total {pages * 5} users</span>
             </div>
           </div>
         }
@@ -213,7 +202,7 @@ export default function HomePage() {
             <TableColumn key={column} className="capitalize">{column}</TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No users found"} items={filteredUsers}>
+        <TableBody isLoading={loading} emptyContent={"No users found"} items={users}>
           {(item) =>
             <TableRow className="cursor-pointer" key={item._id}>
               {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
@@ -222,9 +211,8 @@ export default function HomePage() {
         </TableBody>
       </Table>
 
-      <EditModal userItem={selectedUser} onclose={() => setselectedUser(undefined)} />
+      <EditModal onupdate={() => { setselectedUser(null); FetchUsers(); }} userItem={selectedUser} onclose={() => setselectedUser(undefined)} />
       <CreateModal active={registering} onclose={() => setregistering(false)} oncreate={() => { setregistering(false); FetchUsers() }} />
     </section >
-
   );
 }
