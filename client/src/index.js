@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import * as React from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -17,6 +18,7 @@ root.render(
     />
     <main className="dark text-foreground bg-background">
       <App />
+      <Analytics />
     </main>
   </NextUIProvider>
 );
