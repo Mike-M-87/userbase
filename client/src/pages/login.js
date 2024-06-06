@@ -1,8 +1,8 @@
 import { Button, Image, Input } from "@nextui-org/react";
 import { EyeIcon, EyeSlashIcon } from "../components/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginUser } from "../lib/requests";
-import { AUTHTOKEN, AUTHUSER } from "../lib/utils";
+import { AUTHTOKEN, AUTHUSER, getToken, getUser } from "../lib/utils";
 
 export default function LoginPage() {
   // state vars to store login body
@@ -24,6 +24,10 @@ export default function LoginPage() {
     }
     setloading(false)
   }
+
+  useEffect(() => {
+    if (getToken() && getUser()) window.location.assign("/home")
+  }, [])
 
   return (
     <section className="flex min-h-screen lg:items-center gap-10 justify-between">
@@ -58,10 +62,11 @@ export default function LoginPage() {
         <p className="opacity-50">Phone: 0712345678</p>
         <p className="opacity-50">Password: test123</p>
       </form>
-      <div className="w-1/2 h-screen hidden items-center lg:flex flex-col justify-center">
+      <div className="w-1/2 hidden items-center lg:flex flex-col justify-center">
         <Image
-          isBlurred
           isZoomed
+          radius="none"
+          className="h-screen w-[50vw]"
           src="/wall2.jpg"
         />
       </div>
