@@ -53,8 +53,12 @@ export default function LoginPage() {
         <Button color="primary" type="submit" disabled={!creds.emailOrPhone || !creds.password || loading} isLoading={loading} className="mt-5 w-full lg:w-40 disabled:bg-gray-500">
           {loading ? "Logging in" : "Sign in"}
         </Button>
+        <p className="opacity-50 mt-5">Test Creds</p>
+        <p className="opacity-50">Email: test@test.com</p>
+        <p className="opacity-50">Phone: 0712345678</p>
+        <p className="opacity-50">Password: test123</p>
       </form>
-      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center"><Image src="/wall2.jpg"/></div>
+      <div className="w-1/2 h-svh hidden items-center lg:flex flex-col justify-center"><Image src="/wall2.jpg" /></div>
     </section >
   )
 }
