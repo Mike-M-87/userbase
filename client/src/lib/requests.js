@@ -1,8 +1,8 @@
 import { makeRequest } from "./network.ts";
-
+const API_URL = "https://userbase.onrender.com"
 // endpoint url builder
 const endpoint = (path, params = {}) => {
-  const url = new URL("http://127.0.0.1:8090" + path);
+  const url = new URL(API_URL + path);
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
   return url.toString();
 };
