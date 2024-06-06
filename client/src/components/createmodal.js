@@ -12,8 +12,8 @@ export default function CreateModal({ active, onclose, oncreate }) {
 
   // handle user registration
   async function handleRegister() {
-    setloading(true)
     if (!creds.email || !creds.name || !creds.phoneNumber || !creds.password || !creds.passwordConfirm || !creds.company) return
+    setloading(true)
     const res = await RegisterUser(creds)
     if (res?.success) {
       toast.success("Successfully created user")

@@ -17,8 +17,8 @@ export default function EditModal({ userItem, onclose, onupdate }) {
   }, [userItem])
 
   async function handleUpdate() {
-    setloading(true)
     if (!creds.email || !creds.name || !creds.phoneNumber || !creds.company) return
+    setloading(true)
     const res = await UpdateUser(userItem._id, creds)
     if (res?.success) {
       toast.success("Details updated sucessfully")

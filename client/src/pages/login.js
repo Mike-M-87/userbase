@@ -13,8 +13,8 @@ export default function LoginPage() {
   // login function
   async function handleLogin(e) {
     e.preventDefault()
-    setloading(true)
     if (!creds.emailOrPhone || !creds.password) return
+    setloading(true)
     const res = await LoginUser(creds)
     if (res?.success) {
       // persisting token in localstorage
