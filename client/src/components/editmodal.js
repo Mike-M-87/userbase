@@ -5,6 +5,8 @@ import { UpdateUser } from "../lib/requests";
 
 export default function EditModal({ userItem, onclose, onupdate }) {
   const [creds, setcreds] = useState();
+  const [loading, setloading] = useState(false)
+
 
   useEffect(() => {
     // set creds to userItem since its the same data
@@ -15,18 +17,19 @@ export default function EditModal({ userItem, onclose, onupdate }) {
   }, [userItem])
 
   async function handleUpdate() {
+    setloading(true)
     if (!creds.email || !creds.name || !creds.phoneNumber || !creds.company) return
     const res = await UpdateUser(userItem._id, creds)
     if (res?.success) {
       toast.success("Details updated sucessfully")
       onupdate()
     }
+    setloading(false)
   }
 
   return (
     <Modal
       isOpen={userItem ? true : false}
-      placement="top-center"
       className="dark text-foreground"
       onClose={onclose}
     >
@@ -79,8 +82,8 @@ export default function EditModal({ userItem, onclose, onupdate }) {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleUpdate}>
-                Update Details
+              <Button disabled={loading} isLoading={loading} color="primary" onPress={handleUpdate}>
+                {loading ? "Updating" : "Update Details"}
               </Button>
             </ModalFooter>
           </>

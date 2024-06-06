@@ -8,21 +8,23 @@ import toast from "react-hot-toast"
 export default function CreateModal({ active, onclose, oncreate }) {
   const [creds, setcreds] = useState({ name: "", email: "", password: "", phoneNumber: "", isAdmin: false, company: "", passwordConfirm: "" })
   const [showPwd, setshowPwd] = useState(false)
+  const [loading, setloading] = useState(false)
 
   // handle user registration
   async function handleRegister() {
+    setloading(true)
     if (!creds.email || !creds.name || !creds.phoneNumber || !creds.password || !creds.passwordConfirm || !creds.company) return
     const res = await RegisterUser(creds)
     if (res?.success) {
       toast.success("Successfully created user")
       oncreate()
     }
+    setloading(false)
   }
 
   return (
     <Modal
       isOpen={active}
-      placement="top-center"
       className="dark text-foreground"
       onClose={onclose}
     >
@@ -96,8 +98,8 @@ export default function CreateModal({ active, onclose, oncreate }) {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleRegister}>
-                Create User
+              <Button disabled={loading} isLoading={loading} color="primary" onPress={handleRegister}>
+                {loading ? "Adding User" : "Create User"}
               </Button>
             </ModalFooter>
           </>

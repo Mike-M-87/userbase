@@ -167,7 +167,7 @@ export default function HomePage() {
 
         topContent={
           <div className="flex flex-col gap-4">
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center flex-wrap">
               <Input
                 classNames={{
                   base: "w-full sm:max-w-[44%]",
@@ -183,7 +183,7 @@ export default function HomePage() {
                 }
               />
               <Button
-                className="bg-foreground ml-auto text-background"
+                className="bg-foreground sm:ml-auto text-background"
                 endContent={<PlusIcon />}
                 onPress={() => setregistering(true)}
               >
