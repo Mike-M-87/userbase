@@ -1,3 +1,5 @@
+// Error handler middleware
+
 exports.errorHandler = async (err, req, res, next) => {
   let errors = []
   let statusCode = err.statusCode || 500;

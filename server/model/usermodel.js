@@ -3,7 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
-
+// Mongo DB user schema
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -57,6 +57,7 @@ UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
+// Check login password if correct
 UserSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };

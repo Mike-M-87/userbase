@@ -14,10 +14,12 @@ app.use(express.json())
 app.use(cors())
 app.use(mongoSanitize())
 
+// set handlers at routes
 
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
 
+// default handler
 app.all('*', (req, res) => {
   res.status(404).json({
     error: `Can't find ${req.originalUrl} on this server`,
@@ -28,6 +30,8 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 8090
 const DB = process.env.DATABASE_URL
+
+// connect to mongo db
 mongoose.connect(DB).then(() => {
   console.log("Database connected successfully");
   app.listen(PORT, () => {
@@ -37,6 +41,8 @@ mongoose.connect(DB).then(() => {
   console.error('Database connection error:', err);
 });
 
+
+// System exit event listeners
 
 process.on('uncaughtException', err => {
   console.log(err.name, err.message, err);

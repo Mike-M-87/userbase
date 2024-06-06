@@ -7,7 +7,7 @@ const endpoint = (path, params = {}) => {
   return url.toString();
 };
 
-// function for api requests
+// functions for api requests
 
 export async function GetUsers(page, filterkey) {
   return await makeRequest({ url: endpoint("/users", { page: page, search: filterkey }), method: "GET" })

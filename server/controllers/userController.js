@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken');
 const AppError = require("../utils/appError");
 
 
+// token function
 const createSendToken = (user, res) => {
   const token = user.generateAuthToken();
-  user.password = undefined
+  user.password = undefined // avoid returning selected password to client
   res.status(200).json({
     success: true,
     token,
@@ -15,7 +16,7 @@ const createSendToken = (user, res) => {
   });
 };
 
-
+// Register function, checks if authenticated user is admin
 exports.register = async (req, res, next) => {
   const { name, email, password, phoneNumber, isAdmin, company, passwordConfirm } = req.body;
   try {
@@ -47,6 +48,7 @@ exports.register = async (req, res, next) => {
   }
 }
 
+// Login function
 exports.login = async (req, res, next) => {
   try {
     const { emailOrPhone, password } = req.body;
@@ -54,11 +56,9 @@ exports.login = async (req, res, next) => {
       throw new AppError("Please provide an email and password", 400)
     }
     let user;
-    // Check if emailOrPhone contains '@' to determine if it's an email
     if (emailOrPhone.includes('@')) {
       user = await Usermodel.findOne({ email: emailOrPhone }).select('+password');
     } else {
-      // Assuming phone number is stored in the database as phoneNumber
       user = await Usermodel.findOne({ phoneNumber: emailOrPhone }).select('+password');
     }
     if (!user || !(await user.correctPassword(password, user.password))) {
@@ -73,6 +73,8 @@ exports.login = async (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
+
+    // fetches users from db with  limit of 5 as stated
     const searchQuery = req.query.search || '';
     const page = parseInt(req.query.page) || 1;
     const limit = 5
@@ -81,7 +83,6 @@ exports.getUsers = async (req, res, next) => {
     const total = await Usermodel.countDocuments(searchFilter);
     const totalPages = Math.ceil(total / limit);
     const users = await Usermodel.find(searchFilter).skip(skip).limit(limit);
-
 
 
     res.status(200).json({
@@ -161,6 +162,8 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
+
+// Auth middleware function to verify tokens
 exports.protect = async (req, res, next) => {
   try {
     let token;

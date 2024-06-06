@@ -39,7 +39,7 @@ interface User {
   __v: number;
 }
 
-
+// Make Request function that handles all api request functions and displays errors if any
 export async function makeRequest({ url, body, method }: makeRequestParams) {
   try {
     const response = await fetch(url, {
